@@ -86,7 +86,7 @@ span.grippy::after {
 }
 
 .sortable-ghost {
-background-color: red !important;
+background-color: var(--color-grey--300); 
 }
 
 </style>`;
