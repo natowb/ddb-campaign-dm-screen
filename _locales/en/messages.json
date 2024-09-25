@@ -1,0 +1,10 @@
+{
+  "extension_name": {
+    "message": "D&D Beyond Campaign DM Screen",
+    "description": "The display name for the extension."
+  },
+  "extension_description": {
+    "message": "a dm screen built into the D&D Beyond Campaign page",
+    "description": "Description of what the extension does."
+  }
+}
