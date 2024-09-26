@@ -1,12 +1,11 @@
 import Sortable from 'sortablejs';
-import * as parser from "@natowb/ddb-parser";
-import { buildValue, getData, TABAXI_ERR, TABAXI_LOG } from "./utils";
+import { DndCharacter } from "@natowb/ddb-parser";
+import { buildValue, getData, TABAXI_ERR } from "./utils";
 import { Component } from "./components";
-import { TABAXI_CSS } from "./css";
 import { createElement } from "docrel";
+import type { CharacterData } from '@natowb/ddb-parser/dist/models';
 
 const CARD_CLASS = 'ddb-campaigns-character-card';
-const CARD_FOOTER_CLASS = 'ddb-campaigns-character-card-footer';
 const CARD_VIEW_LINK = 'ddb-campaigns-character-card-footer-links-item-view';
 const CHARACTER_SERVICE_URL = 'https://character-service.dndbeyond.com/character/v5/character';
 
@@ -39,6 +38,23 @@ const css = `<style>
 
 .tabaxi-row:not(:last-child) {
   border-bottom: 1px solid #dedede
+}
+
+
+.tabaxi-loader {
+  padding: 15px;
+  border: 6px solid var(--color-grey--300);
+  border-right-color: var(--color-grey--500);
+  border-radius: 22px;
+  -webkit-animation: rotate 1s infinite linear;
+}
+
+@-webkit-keyframes rotate {
+  /* 100% keyframe for  clockwise. 
+     use 0% instead for anticlockwise */
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
 }
 
 
@@ -100,24 +116,22 @@ document.head.insertAdjacentHTML("beforeend", css);
  */
 
 
-const populateCardWrapper = (character: parser.CharacterData) => {
+const populateCardWrapper = (character: DndCharacter) => {
 
-  const currentHP = parser.getCurrentHP(character);
-  const maxHP = parser.getMaxHP(character);
-  const ac = parser.getArmorClassBonus(character);
-  const initiative = parser.getInitiativeBonus(character);
-
-
-  const per = parser.getPassiveScore(character, "perception");
-  const ins = parser.getPassiveScore(character, "insight");
-  const inv = parser.getPassiveScore(character, "investigation");
+  const currentHP = character.health.current;
+  const maxHP = character.health.max;
+  const ac = character.ac;
+  const initiative = character.initiativeBonus;
 
 
-  const { walk } = parser.getSpeeds(character);
+  const passives = character.passiveScores;
 
-  const saveDc = parser.getSaveDC(character);
 
-  const savingThrows = parser.getSavingThrows(character);
+  const walk = character.walkSpeed;
+
+  const saveDc = character.casting.dc;
+
+  const savingThrows = character.savingThrows;
 
   const wrapper = getContentById(character.id);
   if (!wrapper) {
@@ -146,9 +160,9 @@ const populateCardWrapper = (character: parser.CharacterData) => {
     ),
     Component.Header('Passive Skills'),
     Component.Row(
-      Component.InfoBox({ value: buildValue(per), title: 'Perception' }),
-      Component.InfoBox({ value: buildValue(inv), title: 'Investigation' }),
-      Component.InfoBox({ value: buildValue(ins), title: 'Insight' }),
+      Component.InfoBox({ value: buildValue(passives.perception), title: 'Perception' }),
+      Component.InfoBox({ value: buildValue(passives.investigation), title: 'Investigation' }),
+      Component.InfoBox({ value: buildValue(passives.insight), title: 'Insight' }),
     )
   );
 }
@@ -265,7 +279,7 @@ const populateCardContent = async (characterIds: string[]) => {
   for (let i = 0; i < characterIds.length; i++) {
     const characterId = characterIds[i];
 
-    const { data, error }: { data: parser.CharacterData, error: string }
+    const { data, error }: { data: CharacterData, error: string }
       = await getData(`${CHARACTER_SERVICE_URL}/${characterId}`);
 
     if (error) {
@@ -274,7 +288,7 @@ const populateCardContent = async (characterIds: string[]) => {
       continue;
     }
 
-    populateCardWrapper(data);
+    populateCardWrapper(new DndCharacter(data));
 
   }
 }
@@ -302,7 +316,6 @@ const main = async () => {
   }
   const charactersIds = getCharacterIds();
   await populateCardContent(charactersIds);
-
 
   // TODO: use setupRefresh with seconds set in a settings panel
 }
