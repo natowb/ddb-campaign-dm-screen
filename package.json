@@ -34,7 +34,7 @@
     "arrowParens": "avoid"
   },
   "dependencies": {
-    "@natowb/ddb-parser": "0.0.2-alpha",
+    "@natowb/ddb-parser": "^0.1.1",
     "detect-browser": "^5.3.0",
     "docrel": "^1.7.0",
     "sortablejs": "^1.15.3",
