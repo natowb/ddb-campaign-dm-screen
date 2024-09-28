@@ -17,6 +17,31 @@ export const CharacterCard = (character: DndCharacter) => {
   const walk = character.walkSpeed;
   const saveDc = character.casting.dc;
   const savingThrows = character.savingThrows;
+  const darkvision = character.senses.darkvision;
+
+
+  const senses = [
+    Tile.Header(
+      "Senses",
+      {
+        styles: {
+          "text-align": "center"
+        }
+      }),
+    Tile.Row(
+      InfoBox.Element({ value: passives.perception, title: 'Perception' }),
+      InfoBox.Element({ value: passives.investigation, title: 'Investigation' }),
+      InfoBox.Element({ value: passives.insight, title: 'Insight' }),
+    ),
+  ]
+
+  if (darkvision > 0) {
+    senses.push(
+      Tile.Row(
+        Text.Desc(`Darkvision ${darkvision}ft`)
+      )
+    )
+  }
 
   const card = createComponent('div', {});
   card.append(
@@ -59,30 +84,11 @@ export const CharacterCard = (character: DndCharacter) => {
           InfoBox.Element({ value: buildValue(savingThrows.wis), title: 'WIS', prefix: getValueSymbol(savingThrows.wis) }),
           InfoBox.Element({ value: buildValue(savingThrows.cha), title: 'CHA', prefix: getValueSymbol(savingThrows.cha) })
         ),
-        Tile.Row(
-          Text.Desc("Darkvision 60ft,"),
-          Text.Desc("Darkvision 60ft,"),
-          Text.Desc("Darkvision 60ft,"),
-          Text.Desc("Darkvision 60ft,"),
-          Text.Desc("Darkvision 60ft,"),
-          Text.Desc("Darkvision 60ft"),
-        )
       ]
     }),
     Tile.Container({
       children: [
-        Tile.Header(
-          "Senses",
-          {
-            styles: {
-              "text-align": "center"
-            }
-          }),
-        Tile.Row(
-          InfoBox.Element({ value: passives.perception, title: 'Perception' }),
-          InfoBox.Element({ value: passives.investigation, title: 'Investigation' }),
-          InfoBox.Element({ value: passives.insight, title: 'Insight' }),
-        ),
+        ...senses,
       ]
     }),
 

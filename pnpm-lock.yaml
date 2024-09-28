@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@natowb/ddb-parser':
-        specifier: ^0.1.1
-        version: 0.1.1
+        specifier: ^0.2.0
+        version: 0.2.0
       detect-browser:
         specifier: ^5.3.0
         version: 5.3.0
@@ -21,41 +21,41 @@ importers:
         specifier: ^1.15.3
         version: 1.15.3
       svelte:
-        specifier: ^4.0.5
+        specifier: ^4.2.19
         version: 4.2.19
       webextension-polyfill:
         specifier: ^0.10.0
         version: 0.10.0
     devDependencies:
       '@tsconfig/svelte':
-        specifier: ^5.0.0
+        specifier: ^5.0.4
         version: 5.0.4
       '@types/sortablejs':
         specifier: ^1.15.8
         version: 1.15.8
       '@types/webextension-polyfill':
-        specifier: ^0.10.0
+        specifier: ^0.10.7
         version: 0.10.7
       esbuild:
-        specifier: ^0.18.11
+        specifier: ^0.18.20
         version: 0.18.20
       esbuild-svelte:
         specifier: ^0.7.4
         version: 0.7.4(esbuild@0.18.20)(svelte@4.2.19)
       fs-extra:
-        specifier: ^11.1.1
+        specifier: ^11.2.0
         version: 11.2.0
       prettier:
-        specifier: ^2.8.4
+        specifier: ^2.8.8
         version: 2.8.8
       prettier-plugin-svelte:
         specifier: ^2.10.1
         version: 2.10.1(prettier@2.8.8)(svelte@4.2.19)
       svelte-preprocess:
-        specifier: ^5.0.4
+        specifier: ^5.1.4
         version: 5.1.4(postcss@8.4.38)(svelte@4.2.19)(typescript@5.6.2)
       typescript:
-        specifier: ^5.1.6
+        specifier: ^5.6.2
         version: 5.6.2
       zip-local:
         specifier: ^0.3.5
@@ -217,8 +217,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
 
-  '@natowb/ddb-parser@0.1.1':
-    resolution: {integrity: sha512-zEuncWQK0Yr65ARUv9hhoigJQacLst8zdsXTxBTyQLtvUu2SgI8nUmQWMXITZS02KK8Vebj7kqU5iByr2LquGA==}
+  '@natowb/ddb-parser@0.2.0':
+    resolution: {integrity: sha512-3DZXUet1nVeZOzW3HQIy1HyMq+naV9t4RZM0e1tH6oI78e9otwDu75MnGRxuOgjx649kNgnKQmarZMRpzim4sA==}
 
   '@tsconfig/svelte@5.0.4':
     resolution: {integrity: sha512-BV9NplVgLmSi4mwKzD8BD/NQ8erOY/nUE/GpgWe2ckx+wIQF5RyRirn/QsSSCPeulVpc3RA/iJt6DpfTIZps0Q==}
@@ -568,7 +568,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
-  '@natowb/ddb-parser@0.1.1': {}
+  '@natowb/ddb-parser@0.2.0': {}
 
   '@tsconfig/svelte@5.0.4': {}
 

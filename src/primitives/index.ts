@@ -12,7 +12,7 @@ let styles = `
 .tabaxi-row {
     display: flex;
     justify-content: space-around;
-    padding: 16px 0;
+    padding: 8px 0;
     text-align: center;
     flex-wrap: wrap;
   
