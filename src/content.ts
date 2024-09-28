@@ -1,105 +1,23 @@
 import Sortable from 'sortablejs';
 import { DndCharacter } from "@natowb/ddb-parser";
-import { buildValue, getData, TABAXI_ERR } from "./utils";
-import { Component } from "./components";
-import { createElement } from "docrel";
-import type { CharacterData } from '@natowb/ddb-parser/dist/models';
-
+import { getData, TABAXI_ERR } from "./utils";
+import { Primitive } from "./primitives";
+import { CharacterCard } from './components/characterCard';
+import { Loader } from './primitives/loader';
+import { Tile } from './components/tile';
+import { InfoBox } from './components/infobox';
+import { Text } from './primitives/text';
 const CARD_CLASS = 'ddb-campaigns-character-card';
 const CARD_VIEW_LINK = 'ddb-campaigns-character-card-footer-links-item-view';
 const CHARACTER_SERVICE_URL = 'https://character-service.dndbeyond.com/character/v5/character';
 
 
 const css = `<style>
-.tabaxi-card-content {
- display: flex;
- flex-direction: column;
-  color: var(--color-grey--600);
-}
-
-.tabaxi-content-title {
-    text-transform: uppercase;
-    font-weight: bold;
-}
-
-.tabaxi-infobox-value { 
-  color: var(--color-grey--800) !important;
-}
-
-.tabaxi-content-header-text {
-    text-transform: uppercase;
-    text-align-center;
-    font-size: 16px;
-    margin: 0;
-    padding: 0;
-    border-bottom: none;
-  color: var(--color-grey--800) !important;
-}
-
-.tabaxi-row:not(:last-child) {
-  border-bottom: 1px solid #dedede
-}
-
-
-.tabaxi-loader {
-  padding: 15px;
-  border: 6px solid var(--color-grey--300);
-  border-right-color: var(--color-grey--500);
-  border-radius: 22px;
-  -webkit-animation: rotate 1s infinite linear;
-}
-
-@-webkit-keyframes rotate {
-  /* 100% keyframe for  clockwise. 
-     use 0% instead for anticlockwise */
-  100% {
-    -webkit-transform: rotate(360deg);
-  }
-}
-
-
-.tabaxi-row,
-.tabaxi-content-header {
-    display: flex;
-    justify-content: space-around;
-    text-align: center;
-    flex-wrap: wrap;
-    padding: 8px 0;
-
-}
-
-.tabaxi-column {
-    display: flex;
-    flex-direction: column;
-}
-
-.tabaxi-handle {
-width: 100%;
-height: 16px;
-background-color: var(--common-500);
-}
-
-span.grippy {
-  content: '....';
-  width: 10px;
-  height: 20px;
-  display: inline-block;
-  overflow: hidden;
-  line-height: 5px;
-  padding: 3px 4px;
-  cursor: move;
-  vertical-align: middle;
-  margin-top: -.7em;
-  margin-right: .3em;
-  font-size: 12px;
-  font-family: sans-serif;
-  letter-spacing: 2px;
-  color: #cccccc;
-  text-shadow: 1px 0 1px black;
-}
-span.grippy::after {
-  content: '.. .. .. ..';
-}
+${Loader.styles}
+${Tile.styles}
+${InfoBox.styles}
+${Primitive.styles}
+${Text.styles}
 
 .sortable-ghost {
 background-color: var(--color-grey--300); 
@@ -109,82 +27,6 @@ background-color: var(--color-grey--300);
 
 
 document.head.insertAdjacentHTML("beforeend", css);
-
-
-/**
- * This will fetch the data of character with matching id
- */
-
-
-const populateCardWrapper = (character: DndCharacter) => {
-
-  const currentHP = character.health.current;
-  const maxHP = character.health.max;
-  const ac = character.ac;
-  const initiative = character.initiativeBonus;
-
-
-  const passives = character.passiveScores;
-
-
-  const walk = character.walkSpeed;
-
-  const saveDc = character.casting.dc;
-
-  const savingThrows = character.savingThrows;
-
-  const wrapper = getContentById(character.id);
-  if (!wrapper) {
-    return;
-  }
-
-  wrapper.replaceChildren(
-    Component.Row(
-      Component.InfoBox({ value: buildValue(initiative), title: 'Initiative' }),
-      Component.InfoBox({ value: `${ac}`, title: 'Armor Class' }),
-      Component.InfoBox({ value: `${currentHP}/${maxHP}`, title: 'Hit Points' })
-    ),
-    Component.Row(
-      Component.InfoBox({ value: `${walk}ft`, title: 'Speed' }),
-
-      Component.InfoBox({ value: `${isNaN(saveDc) ? "N/A" : saveDc}`, title: 'Save DC' }),
-    ),
-    Component.Header('Saving Throws'),
-    Component.Row(
-      Component.InfoBox({ value: buildValue(savingThrows.str), title: 'STR' }),
-      Component.InfoBox({ value: buildValue(savingThrows.dex), title: 'DEX' }),
-      Component.InfoBox({ value: buildValue(savingThrows.con), title: 'CON' }),
-      Component.InfoBox({ value: buildValue(savingThrows.int), title: 'INT' }),
-      Component.InfoBox({ value: buildValue(savingThrows.wis), title: 'WIS' }),
-      Component.InfoBox({ value: buildValue(savingThrows.cha), title: 'CHA' })
-    ),
-    Component.Header('Passive Skills'),
-    Component.Row(
-      Component.InfoBox({ value: buildValue(passives.perception), title: 'Perception' }),
-      Component.InfoBox({ value: buildValue(passives.investigation), title: 'Investigation' }),
-      Component.InfoBox({ value: buildValue(passives.insight), title: 'Insight' }),
-    )
-  );
-}
-
-const displayError = (id: string) => {
-
-  const wrapper = getContentById(id);
-
-  // FIXME: probs handle this 
-  if (!wrapper) {
-    return;
-  }
-
-  wrapper.replaceChildren(
-    Component.Row(
-      Component.Header("Oops, ran into problem :("),
-      Component.Text('Make sure the visibility is set to PUBLIC on the character sheet'),
-    )
-  );
-}
-
-
 
 const getCharacterId = (card: Element) => {
   const linkAnchors = card.getElementsByClassName(CARD_VIEW_LINK);
@@ -212,7 +54,6 @@ const bootstrapCards = async (): Promise<boolean> => {
 
   Sortable.create(characterListing);
 
-
   if (!characterListing) {
     return false;
   }
@@ -220,8 +61,6 @@ const bootstrapCards = async (): Promise<boolean> => {
   if (cards.length === 0) {
     return false;
   }
-
-
 
   for (let i = 0; i < cards.length; i++) {
     const card = cards[i];
@@ -232,18 +71,11 @@ const bootstrapCards = async (): Promise<boolean> => {
     }
     wrapper.id = `${cardId}-wrapper`;
     card.id = `${cardId}-card`;
-
-    const handle = createElement('div', { class: 'tabaxi-handle' }, [
-      createElement('span', { class: 'grippy' })
-    ])
-    const header = card.getElementsByClassName('ddb-campaigns-character-card-header')[0];
-    header.insertBefore(handle, header.firstChild);
-
     card.insertBefore(
-      Component.Content(
+      Primitive.Content(
         `${cardId}-content`,
-        Component.Row(
-          Component.Loader(),
+        Primitive.Row(
+          Loader.Element(),
         )
       ),
       card.lastElementChild,
@@ -273,23 +105,57 @@ const getCharacterIds = () => {
   return arr;
 }
 
+const displayError = (id: string) => {
 
+  const content = getContentById(id);
+
+  // FIXME: probs handle this 
+  if (!content) {
+    return;
+  }
+
+  content.replaceChildren(
+    Tile.Container(
+      {
+        children: [
+
+          Tile.Header("Oops, ran into problem :(",
+            {
+              styles: {
+                "text-align": "center",
+              }
+            }),
+          Tile.Row(
+            Text.Label('Make sure the visibility is set to PUBLIC on the character sheet'),
+          )
+        ]
+      }
+    )
+  )
+
+}
 
 const populateCardContent = async (characterIds: string[]) => {
   for (let i = 0; i < characterIds.length; i++) {
     const characterId = characterIds[i];
 
-    const { data, error }: { data: CharacterData, error: string }
+    const { data, error }: { data: any, error: string }
       = await getData(`${CHARACTER_SERVICE_URL}/${characterId}`);
 
     if (error) {
       displayError(characterId);
       TABAXI_ERR(`failed to retrieve character data for id ${characterId}`);
       continue;
+
+    }
+    const wrapper = getContentById(characterId);
+    if (!wrapper) {
+      return;
     }
 
-    populateCardWrapper(new DndCharacter(data));
-
+    wrapper.replaceChildren(
+      CharacterCard(new DndCharacter(data))
+    );
   }
 }
 
@@ -301,13 +167,8 @@ const setupRefresh = () => {
     const ids = getCharacterIds();
     populateCardContent(ids);
 
-  }, 5000)
+  }, 30 * 1000)
 }
-
-
-
-
-
 
 const main = async () => {
   const didBootstrap = await bootstrapCards();

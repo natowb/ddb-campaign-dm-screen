@@ -14,16 +14,16 @@
   "author": "natowb",
   "license": "MIT",
   "devDependencies": {
-    "@tsconfig/svelte": "^5.0.0",
+    "@tsconfig/svelte": "^5.0.4",
     "@types/sortablejs": "^1.15.8",
-    "@types/webextension-polyfill": "^0.10.0",
-    "esbuild": "^0.18.11",
+    "@types/webextension-polyfill": "^0.10.7",
+    "esbuild": "^0.18.20",
     "esbuild-svelte": "^0.7.4",
-    "fs-extra": "^11.1.1",
-    "prettier": "^2.8.4",
+    "fs-extra": "^11.2.0",
+    "prettier": "^2.8.8",
     "prettier-plugin-svelte": "^2.10.1",
-    "svelte-preprocess": "^5.0.4",
-    "typescript": "^5.1.6",
+    "svelte-preprocess": "^5.1.4",
+    "typescript": "^5.6.2",
     "zip-local": "^0.3.5"
   },
   "prettier": {
@@ -34,11 +34,11 @@
     "arrowParens": "avoid"
   },
   "dependencies": {
-    "@natowb/ddb-parser": "0.0.2-alpha",
+    "@natowb/ddb-parser": "^0.2.0",
     "detect-browser": "^5.3.0",
     "docrel": "^1.7.0",
     "sortablejs": "^1.15.3",
-    "svelte": "^4.0.5",
+    "svelte": "^4.2.19",
     "webextension-polyfill": "^0.10.0"
   }
 }
