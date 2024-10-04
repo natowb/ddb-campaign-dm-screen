@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@natowb/ddb-parser':
-        specifier: ^0.2.0
-        version: 0.2.0
+        specifier: ^0.2.2
+        version: 0.2.2
       detect-browser:
         specifier: ^5.3.0
         version: 5.3.0
@@ -217,8 +217,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
 
-  '@natowb/ddb-parser@0.2.0':
-    resolution: {integrity: sha512-3DZXUet1nVeZOzW3HQIy1HyMq+naV9t4RZM0e1tH6oI78e9otwDu75MnGRxuOgjx649kNgnKQmarZMRpzim4sA==}
+  '@natowb/ddb-parser@0.2.2':
+    resolution: {integrity: sha512-lDb74zKV2IHjPNhkofsSELR/qWs97R2ZojpiU1eVLf3P3UQgvzyfcZXoxwSM28/pKNB8EcCiu/QV2LgCQpE9zQ==}
 
   '@tsconfig/svelte@5.0.4':
     resolution: {integrity: sha512-BV9NplVgLmSi4mwKzD8BD/NQ8erOY/nUE/GpgWe2ckx+wIQF5RyRirn/QsSSCPeulVpc3RA/iJt6DpfTIZps0Q==}
@@ -568,7 +568,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
-  '@natowb/ddb-parser@0.2.0': {}
+  '@natowb/ddb-parser@0.2.2': {}
 
   '@tsconfig/svelte@5.0.4': {}
 
